@@ -1,0 +1,32 @@
+name: Build Project
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
+    - name: Set up CMake
+      uses: Kitware/setup-cmake@v1
+      
+    - name: Install YASM Assembler
+      run: |
+        mkdir yasm
+        cd yasm
+        curl -LJO https://github.com/tortall/totall.net/releases/download/v1.3.0/yasm-1.3.0-win64.exe
+        Rename-Item -Path yasm-1.3.0-win64.exe -NewName yasm.exe
+        setx PATH "%cd%\yasm;%PATH%"
+      
+    - name: Build Project
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build .
