@@ -49,7 +49,7 @@ jobs:
 
     - name: Package Compiled Files
       run: |
-        7z a -t7z -r MathAnimations.7z D:/a/MathAnimation/MathAnimation/build/bin/Debug
+        7z a -t7z -r MathAnimations.7z D:/a/MathAnimation/MathAnimation/build/
 
     - name: Create Release
       uses: ncipollo/release-action@v1
