@@ -12,6 +12,9 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
+      with:
+        repository: ambrosiogabe/MathAnimation
+        submodules: recursive
 
     - name: Setup cmake
       uses: jwlawson/actions-setup-cmake@v1.13
@@ -31,13 +34,9 @@ jobs:
       with:
         arch: x64
 
-    - name: Configure Build
-      run: |
-        mkdir build
-        cd build
-        cmake ..
-
     - name: Run Build
       run: |
-        cd build
-        cmake --build . --parallel --target MathAnimations
+        mkdir build
+        pushd build
+        cmake ..
+        popd
