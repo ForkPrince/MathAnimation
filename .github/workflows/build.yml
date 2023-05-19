@@ -16,6 +16,9 @@ jobs:
         repository: ambrosiogabe/MathAnimation
         submodules: recursive
 
+    - name: Setup 7zip
+      run: choco install 7zip
+
     - name: Setup cmake
       uses: jwlawson/actions-setup-cmake@v1.13
       with:
@@ -29,9 +32,28 @@ jobs:
       with:
         arch: x64
 
-    - name: Run Build
+    - name: Configure Build
       run: |
         mkdir build
         pushd build
         cmake ..
         popd
+
+    - name: Run build
+      run: |
+        cd build
+        cmake --build . --parallel --target MathAnimations
+
+    - name: Package Compiled Files
+      run: |
+        7z a -t7z -r MathAnimations.7z D:/a/MathAnimation/MathAnimation/build
+
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "MathAnimations.7z"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: release
+        name: Automated Release
+        replacesArtifacts: true
+        allowUpdates: true
