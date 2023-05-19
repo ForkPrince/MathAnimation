@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - build
+  workflow_dispatch:
+
+permissions: write-all
 
 jobs:
   build:
